@@ -1,0 +1,49 @@
+name: examprep
+description: "Crowd-sourced notes & exam-topic predictor for Pakistani students."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '^3.12.2'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management
+  flutter_riverpod: ^2.5.1
+
+  # Navigation
+  go_router: ^14.2.0
+
+  # Local storage
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # Charts
+  fl_chart: ^0.68.0
+
+  # Fonts
+  google_fonts: ^6.2.1
+
+  # Animations
+  flutter_animate: ^4.5.0
+
+  # File picking + viewing (notes)
+  file_picker: ^8.0.0+1
+  open_file: ^3.3.2
+
+  cupertino_icons: ^1.0.8
+  supabase_flutter: ^2.16.0
+  url_launcher: ^6.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/data/seed.json
