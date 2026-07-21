@@ -20,12 +20,12 @@ subprojects {
 }
 
 // Some plugins (e.g. file_picker) pin an older compileSdk than their own
-// dependencies require. Force every Android module to compile against API 36.
+// dependencies require. Force every Android library module to compile against
+// API 36. Using plugins.withId avoids afterEvaluate timing errors.
 subprojects {
-    afterEvaluate {
-        extensions.findByName("android")?.let { ext ->
-            (ext as com.android.build.gradle.BaseExtension).compileSdkVersion(36)
-        }
+    plugins.withId("com.android.library") {
+        (extensions.getByName("android") as com.android.build.gradle.BaseExtension)
+            .compileSdkVersion(36)
     }
 }
 
