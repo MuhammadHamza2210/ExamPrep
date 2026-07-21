@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -25,7 +27,7 @@ class _UploadNoteSheetState extends ConsumerState<UploadNoteSheet> {
   final _chapter = TextEditingController();
   final _text = TextEditingController();
   ExamType _examType = ExamType.finalExam;
-  String? _filePath;
+  Uint8List? _fileBytes;
   String? _fileName;
   bool _saving = false;
   bool _done = false;
@@ -43,10 +45,11 @@ class _UploadNoteSheetState extends ConsumerState<UploadNoteSheet> {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: const ['pdf', 'png', 'jpg', 'jpeg', 'doc', 'docx'],
+        withData: true, // load bytes (works on web + mobile + desktop)
       );
-      if (result != null && result.files.single.path != null) {
+      if (result != null && result.files.single.bytes != null) {
         setState(() {
-          _filePath = result.files.single.path;
+          _fileBytes = result.files.single.bytes;
           _fileName = result.files.single.name;
         });
         Haptics.select();
@@ -63,7 +66,7 @@ class _UploadNoteSheetState extends ConsumerState<UploadNoteSheet> {
       AppSnack.show(context, 'Please give your note a title', success: false);
       return;
     }
-    if ((_filePath == null) && _text.text.trim().isEmpty) {
+    if ((_fileBytes == null) && _text.text.trim().isEmpty) {
       AppSnack.show(context, 'Attach a file or type some notes',
           success: false);
       return;
@@ -78,7 +81,8 @@ class _UploadNoteSheetState extends ConsumerState<UploadNoteSheet> {
             chapter: _chapter.text.trim(),
             examType: _examType,
             textBody: _text.text.trim(),
-            localFilePath: _filePath,
+            fileBytes: _fileBytes,
+            fileName: _fileName,
           );
     } catch (_) {
       if (!mounted) return;
@@ -259,7 +263,7 @@ class _UploadNoteSheetState extends ConsumerState<UploadNoteSheet> {
                     GestureDetector(
                       onTap: () => setState(() {
                         _fileName = null;
-                        _filePath = null;
+                        _fileBytes = null;
                       }),
                       child: const Icon(LucideIcons.x,
                           size: 18, color: AppColors.textSecondary),

@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:examprep/core/icons.dart';
-import 'package:open_file/open_file.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app/theme.dart';
@@ -36,17 +33,10 @@ class NoteDetailScreen extends ConsumerWidget {
     Future<void> openFile() async {
       if (!note.hasFile) return;
       await ref.read(appDataProvider.notifier).markDownloaded(note.id);
-      if (note.filePath.startsWith('http')) {
-        final ok = await launchUrl(Uri.parse(note.filePath),
-            mode: LaunchMode.externalApplication);
-        if (!ok && context.mounted) {
-          AppSnack.show(context, 'Could not open file', success: false);
-        }
-      } else {
-        final result = await OpenFile.open(note.filePath);
-        if (result.type != ResultType.done && context.mounted) {
-          AppSnack.show(context, 'Could not open file', success: false);
-        }
+      final ok = await launchUrl(Uri.parse(note.filePath),
+          mode: LaunchMode.externalApplication);
+      if (!ok && context.mounted) {
+        AppSnack.show(context, 'Could not open file', success: false);
       }
     }
 
@@ -125,20 +115,11 @@ class _Viewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isRemote = note.filePath.startsWith('http');
-    if (note.isImage) {
-      if (isRemote) {
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Image.network(note.filePath, fit: BoxFit.cover),
-        );
-      }
-      if (File(note.filePath).existsSync()) {
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Image.file(File(note.filePath), fit: BoxFit.cover),
-        );
-      }
+    if (note.isImage && note.filePath.startsWith('http')) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Image.network(note.filePath, fit: BoxFit.cover),
+      );
     }
 
     if (note.hasFile) {

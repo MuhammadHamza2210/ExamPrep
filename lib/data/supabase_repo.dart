@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:supabase_flutter/supabase_flutter.dart' hide LocalStorage;
 
@@ -106,16 +106,16 @@ class SupabaseRepository {
     required String chapter,
     required ExamType examType,
     required String textBody,
-    String? localFilePath,
+    Uint8List? fileBytes,
+    String? fileName,
   }) async {
     var fileUrl = '';
     var fileExt = '';
-    if (localFilePath != null && localFilePath.isNotEmpty) {
-      final dot = localFilePath.lastIndexOf('.');
-      fileExt = dot == -1 ? '' : localFilePath.substring(dot + 1).toLowerCase();
-      final bytes = await File(localFilePath).readAsBytes();
+    if (fileBytes != null && fileName != null && fileName.isNotEmpty) {
+      final dot = fileName.lastIndexOf('.');
+      fileExt = dot == -1 ? '' : fileName.substring(dot + 1).toLowerCase();
       final path = '$uid/${DateTime.now().microsecondsSinceEpoch}.$fileExt';
-      await _c.storage.from('notes').uploadBinary(path, bytes);
+      await _c.storage.from('notes').uploadBinary(path, fileBytes);
       fileUrl = _c.storage.from('notes').getPublicUrl(path);
     }
     await _c.from('notes').insert({

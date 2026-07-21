@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/course.dart';
@@ -215,7 +217,8 @@ class AppDataNotifier extends Notifier<AppData> {
     required String chapter,
     required ExamType examType,
     required String textBody,
-    String? localFilePath,
+    Uint8List? fileBytes,
+    String? fileName,
   }) async {
     await supabaseRepo.insertNote(
       courseId: courseId,
@@ -224,7 +227,8 @@ class AppDataNotifier extends Notifier<AppData> {
       chapter: chapter,
       examType: examType,
       textBody: textBody,
-      localFilePath: localFilePath,
+      fileBytes: fileBytes,
+      fileName: fileName,
     );
     await sync();
   }
