@@ -6,7 +6,9 @@ plugins {
 
 android {
     namespace = "com.example.examprep"
-    compileSdk = flutter.compileSdkVersion
+    // A file_picker dependency (flutter_plugin_android_lifecycle) requires
+    // compiling against Android API 36.
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
