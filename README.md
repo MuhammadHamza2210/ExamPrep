@@ -69,16 +69,6 @@ It's **crowd-sourced** (every student's votes count), **cloud-synced** (your acc
 
 ---
 
-## 📸 Screenshots
-
-> _Add your screenshots here — drop images into `docs/screenshots/` and reference them below._
-
-| Home | Important Topics | Study Plan |
-|:---:|:---:|:---:|
-| _coming soon_ | _coming soon_ | _coming soon_ |
-
----
-
 ## 🛠️ Tech Stack
 
 | Layer | Choice |
