@@ -31,7 +31,8 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authControllerProvider);
     final data = ref.watch(appDataProvider);
-    final themeMode = ref.watch(themeModeProvider);
+    ref.watch(themeModeProvider); // rebuild when the theme changes
+    final isDarkNow = Theme.of(context).brightness == Brightness.dark;
     final uni = user == null ? null : data.university(user.universityId);
     final uploads = data.myUploads;
     final downloads = data.myDownloads;
@@ -159,16 +160,16 @@ class ProfileScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 24),
             _SettingsTile(
-              icon: themeMode == ThemeMode.dark
-                  ? LucideIcons.moon
-                  : LucideIcons.sun,
+              icon: isDarkNow ? LucideIcons.moon : LucideIcons.sun,
               title: 'Dark mode',
               trailing: Switch(
-                value: themeMode == ThemeMode.dark,
+                value: isDarkNow,
                 activeThumbColor: AppColors.primary,
-                onChanged: (_) {
+                onChanged: (v) {
                   Haptics.select();
-                  ref.read(themeModeProvider.notifier).toggle();
+                  ref
+                      .read(themeModeProvider.notifier)
+                      .set(v ? ThemeMode.dark : ThemeMode.light);
                 },
               ),
             ),
