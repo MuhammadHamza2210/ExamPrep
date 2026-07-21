@@ -10,7 +10,11 @@
 ![Dart](https://img.shields.io/badge/Dart-3.12-0175C2?logo=dart&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-Backend-3ECF8E?logo=supabase&logoColor=white)
 ![Riverpod](https://img.shields.io/badge/State-Riverpod-4A42D6)
-![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS%20%7C%20Desktop-lightgrey)
+![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS%20%7C%20Web%20%7C%20Desktop-lightgrey)
+
+### [🌐 Live Demo](https://muhammadhamza2210.github.io/ExamPrep/) &nbsp;·&nbsp; [📥 Download Android APK](https://github.com/MuhammadHamza2210/ExamPrep/releases/latest)
+
+Open the **[live web app](https://muhammadhamza2210.github.io/ExamPrep/)** in any browser (works on mobile too — "Add to Home screen" for an app icon), or **[install the Android APK](https://github.com/MuhammadHamza2210/ExamPrep/releases/latest)**.
 
 </div>
 
