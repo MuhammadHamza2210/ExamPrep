@@ -56,6 +56,19 @@ class NoteDetailScreen extends ConsumerWidget {
             children: [
               Hero(
                 tag: 'note-${note.id}',
+                // Let the card content stay scrollable (not overflow) while the
+                // Hero flight box interpolates between card and detail sizes.
+                flightShuttleBuilder: (flightContext, animation, direction,
+                    fromContext, toContext) {
+                  final hero = (direction == HeroFlightDirection.push
+                          ? toContext
+                          : fromContext)
+                      .widget as Hero;
+                  return SingleChildScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    child: hero.child,
+                  );
+                },
                 child: Material(
                   type: MaterialType.transparency,
                   child: GlassCard(
