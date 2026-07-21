@@ -27,7 +27,14 @@ jobs:
           channel: stable
           flutter-version: 3.44.6
       - run: flutter pub get
+      - name: Decode signing keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > "${{ runner.temp }}/examprep.jks"
       - run: flutter build apk --release
+        env:
+          KEYSTORE_PATH: ${{ runner.temp }}/examprep.jks
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
       # Download from the workflow run (Actions tab → run → Artifacts)
       - uses: actions/upload-artifact@v4
         with:
