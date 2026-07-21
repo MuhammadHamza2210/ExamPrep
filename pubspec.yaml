@@ -38,6 +38,12 @@ dependencies:
   supabase_flutter: ^2.16.0
   url_launcher: ^6.3.2
 
+dependency_overrides:
+  # path_provider_android 2.3.x pulls `jni`, which forces an Android NDK/CMake
+  # native build — that breaks local Windows builds (antivirus file-locks) and
+  # CI (no NDK). 2.2.x uses plain platform channels, so no native build.
+  path_provider_android: '>=2.2.0 <2.3.0'
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
