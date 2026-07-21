@@ -15,18 +15,18 @@ subprojects {
     val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
-subprojects {
-    project.evaluationDependsOn(":app")
-}
 
 // Some plugins (e.g. file_picker) pin an older compileSdk than their own
-// dependencies require. Force every Android library module to compile against
-// API 36. Using plugins.withId avoids afterEvaluate timing errors.
+// dependencies require. Force every Android module to compile against API 36.
+// Registered BEFORE evaluationDependsOn so afterEvaluate fires after each
+// plugin's own build script has run (otherwise it gets reset back).
 subprojects {
-    plugins.withId("com.android.library") {
-        (extensions.getByName("android") as com.android.build.gradle.BaseExtension)
-            .compileSdkVersion(36)
+    afterEvaluate {
+        extensions.findByName("android")?.let { ext ->
+            (ext as com.android.build.gradle.BaseExtension).compileSdkVersion(36)
+        }
     }
+    project.evaluationDependsOn(":app")
 }
 
 tasks.register<Delete>("clean") {
